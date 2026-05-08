@@ -432,7 +432,7 @@ All decisions below reflect `research.md`. Deviations are recorded in Decision L
 ## Progress
 
 - [x] M1 — Project Bootstrap and Deployment Pipeline (completed 2026-05-08)
-- [ ] M2 — Supabase Data Layer (not started)
+- [x] M2 — Data Layer (Neon replaces Supabase) (completed 2026-05-08)
 - [ ] M3 — Google Sheets Import (not started)
 - [ ] M4 — Roadmap View Read-Only (not started)
 - [ ] M5 — Edit and Modify Roadmap (not started)
@@ -446,6 +446,8 @@ All decisions below reflect `research.md`. Deviations are recorded in Decision L
 ---
 
 ## Surprises & Discoveries
+
+**M2 (2026-05-08):** Supabase not available — replaced with Neon (serverless Postgres). Migration SQL unchanged; client library swapped from `@supabase/supabase-js` to `@neondatabase/serverless` using `Pool` for migrations and `neon()` tagged-template client for query calls. `neon.unsafe()` does not return a Promise directly — must use `Pool` + `BEGIN/COMMIT` for multi-statement migrations. Module-level `throw` on missing env vars breaks Next.js build-time static generation; refactored all clients to lazy-init functions. `/api/health` was blocked by Clerk middleware — added to `isPublicRoute` matcher. `GET /api/health` now returns `{"db":"ok"}` confirmed live against Neon.
 
 **M1 (2026-05-08):** `create-next-app` scaffolded Next.js 16.2.6 (not 15.x as planned) — newer release, App Router works the same way; no functional impact. Tailwind v4 is used (CSS-based config in `globals.css`, no `tailwind.config.ts`); shadcn/ui v4 supports this natively. Next.js 16 renamed `middleware.ts` → `proxy.ts`; renamed accordingly. Google Fonts could not be fetched in this network environment (SSL inspection); switched layout to system fonts via CSS variables — no visual impact for an internal tool. Clerk v7 removed `afterSignOutUrl` prop from `UserButton`; removed. Turbopack fails in sandboxed environments due to process-fork restrictions; `NEXT_TURBOPACK=0` env var disables it for builds.
 
@@ -470,6 +472,9 @@ A more normalized approach would have a separate `initiative_groups` table with 
 
 **Decision (M1): `NEXT_TURBOPACK=0` set in build scripts to disable Turbopack.**
 Turbopack forks child processes which are blocked in sandboxed/restricted environments. Webpack is used for production builds. `npm run dev` still uses Turbopack for the local dev server (fast refresh). Add `NEXT_TURBOPACK=0` to Netlify environment variables to ensure Netlify builds use Webpack.
+
+**Decision (M2): Neon replaces Supabase as the database.**
+Supabase was not accessible. Neon is serverless Postgres with an identical SQL dialect — the migration file required zero changes. Client library changed to `@neondatabase/serverless`. `lib/supabase/` renamed to `lib/db/`; `getSupabaseServer()` replaced by `getDb()`. The Neon `Pool` class is used for migration scripts; the `neon()` tagged-template function is used for application queries.
 
 **Decision (M1): System fonts used instead of Geist (Google Fonts).**
 Google Fonts CDN is unreachable in this network environment. System font stack applied via CSS variables. Can be revisited by self-hosting Geist woff2 files in `/public/fonts/` if brand consistency becomes a requirement.
