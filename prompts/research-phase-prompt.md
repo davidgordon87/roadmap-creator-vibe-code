@@ -10,6 +10,17 @@ The eventual app should be able to:
 - Filter to specific teams, projects, owners of work
 - This phase is RESEARCH ONLY: do not write code, do not propose an execution plan, do not describe file paths, routes, or implementation steps. Planning/coding happens later.
 
+## Systems Involved
+- Healthline
+    - Google Sheets
+        -  https://docs.google.com/spreadsheets/d/1ndTnr_gRWxjyTBkp4SGWWKDXfbjXR1bz0SUQMUhe6AI/edit?gid=820917151#gid=820917151
+        - https://docs.google.com/spreadsheets/d/1WjS6RywoKSvB2S8t0xf6-ozWCs_ppgEQM0TcwlObl1M/edit?usp=sharing
+    - JIRA
+        - https://rvohealth.atlassian.net/jira/software/c/projects/HBA/boards/14/backlog
+        - https://rvohealth.atlassian.net/jira/software/c/projects/HDE/boards/10
+    - Slack
+        - rvohealth.slack.com
+
 ## What "fully functioning" means (from a user POV):
 - Users can add new roadmap line items to existing tools
 - Users can tag relevant stakeholders, co-owners by using their Slack handles. System will alert user that they have been assigned / tagged in the tool
