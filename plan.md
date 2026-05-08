@@ -431,7 +431,7 @@ All decisions below reflect `research.md`. Deviations are recorded in Decision L
 
 ## Progress
 
-- [ ] M1 — Project Bootstrap and Deployment Pipeline (not started)
+- [x] M1 — Project Bootstrap and Deployment Pipeline (completed 2026-05-08)
 - [ ] M2 — Supabase Data Layer (not started)
 - [ ] M3 — Google Sheets Import (not started)
 - [ ] M4 — Roadmap View Read-Only (not started)
@@ -447,7 +447,7 @@ All decisions below reflect `research.md`. Deviations are recorded in Decision L
 
 ## Surprises & Discoveries
 
-No surprises recorded yet. Update this section during implementation with anything unexpected: API behaviors that differ from documentation, environment-specific issues, schema changes required mid-implementation, or performance observations.
+**M1 (2026-05-08):** `create-next-app` scaffolded Next.js 16.2.6 (not 15.x as planned) — newer release, App Router works the same way; no functional impact. Tailwind v4 is used (CSS-based config in `globals.css`, no `tailwind.config.ts`); shadcn/ui v4 supports this natively. Next.js 16 renamed `middleware.ts` → `proxy.ts`; renamed accordingly. Google Fonts could not be fetched in this network environment (SSL inspection); switched layout to system fonts via CSS variables — no visual impact for an internal tool. Clerk v7 removed `afterSignOutUrl` prop from `UserButton`; removed. Turbopack fails in sandboxed environments due to process-fork restrictions; `NEXT_TURBOPACK=0` env var disables it for builds.
 
 ---
 
@@ -464,6 +464,15 @@ The plan prompt states the app should display the roadmap sourced from Google Sh
 
 **Decision: `canonical_initiative_id` is a self-referencing nullable foreign key on the `initiatives` table, not a separate `initiative_groups` table.**
 A more normalized approach would have a separate `initiative_groups` table with initiatives pointing to it. However, for this use case (deduplication of a small number of initiatives), the self-referencing approach is simpler to query (one table, one JOIN) and easier to explain to a novice developer. If the number of aliases per initiative grows large, a groups table should be reconsidered.
+
+**Decision (M1): Next.js 16 used instead of planned Next.js 15.**
+`create-next-app` installed Next.js 16.2.6. App Router, Server Actions, and Netlify adapter all work identically. No downgrade performed.
+
+**Decision (M1): `NEXT_TURBOPACK=0` set in build scripts to disable Turbopack.**
+Turbopack forks child processes which are blocked in sandboxed/restricted environments. Webpack is used for production builds. `npm run dev` still uses Turbopack for the local dev server (fast refresh). Add `NEXT_TURBOPACK=0` to Netlify environment variables to ensure Netlify builds use Webpack.
+
+**Decision (M1): System fonts used instead of Geist (Google Fonts).**
+Google Fonts CDN is unreachable in this network environment. System font stack applied via CSS variables. Can be revisited by self-hosting Geist woff2 files in `/public/fonts/` if brand consistency becomes a requirement.
 
 ---
 
