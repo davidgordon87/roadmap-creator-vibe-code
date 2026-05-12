@@ -433,8 +433,8 @@ All decisions below reflect `research.md`. Deviations are recorded in Decision L
 
 - [x] M1 — Project Bootstrap and Deployment Pipeline (completed 2026-05-08)
 - [x] M2 — Data Layer (Neon replaces Supabase) (completed 2026-05-08)
-- [ ] M3 — Google Sheets Import (not started)
-- [ ] M4 — Roadmap View Read-Only (not started)
+- [x] M3 — Google Sheets Import (completed 2026-05-08)
+- [x] M4 — Roadmap View Read-Only (completed 2026-05-08)
 - [ ] M5 — Edit and Modify Roadmap (not started)
 - [ ] M6 — Tagged View My Items (not started)
 - [ ] M7 — Jira Issue Enrichment (not started)

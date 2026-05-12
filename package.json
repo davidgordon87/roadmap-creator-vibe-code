@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -13,9 +13,11 @@
     "@clerk/nextjs": "^7.3.2",
     "@neondatabase/serverless": "^1.1.0",
     "@netlify/plugin-nextjs": "^5.15.11",
+    "@slack/web-api": "^7.15.2",
     "@supabase/supabase-js": "^2.105.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "googleapis": "^171.4.0",
     "lucide-react": "^1.14.0",
     "next": "16.2.6",
     "next-themes": "^0.4.6",

@@ -1,18 +1,23 @@
-import { auth } from "@clerk/nextjs/server";
+import { getAllInitiatives } from "@/lib/db/initiatives";
+import { RoadmapTable } from "@/components/roadmap-table";
 
 export default async function HomePage() {
-  const { userId } = await auth();
+  const initiatives = await getAllInitiatives();
 
   return (
-    <main className="flex-1 flex flex-col items-center justify-center gap-4 p-8 text-center">
-      <h2 className="text-2xl font-semibold">Milestone 1 complete ✅</h2>
-      <p className="text-muted-foreground max-w-md">
-        You are signed in (user ID:{" "}
-        <code className="font-mono text-sm bg-muted px-1 rounded">
-          {userId}
-        </code>
-        ). The roadmap table will appear here in Milestone 4.
-      </p>
+    <main className="flex-1 flex flex-col px-6 py-6 gap-4">
+      {/* Page header */}
+      <div className="flex items-baseline justify-between">
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight">Roadmap</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            {initiatives.length} initiative{initiatives.length !== 1 ? "s" : ""}
+          </p>
+        </div>
+      </div>
+
+      {/* Table */}
+      <RoadmapTable initiatives={initiatives} />
     </main>
   );
 }
